@@ -1,0 +1,47 @@
+version: "3.9"
+networks:
+    micro-net:
+      driver: bridge
+volumes:
+    api-gateway-node-modules:
+    booking-service-node-modules:
+    flights-service-node-modules:
+    notification-service-node-modules:
+services:
+    api_gateway:
+      build: ./Api-Gateway
+      networks:
+        - micro-net
+      ports:
+        - "3001:3001"
+      volumes:
+        - ./Api-Gateway:/developer/nodejs/api-gateway
+        - api-gateway-node-modules:/developer/nodejs/api-gateway/node_modules
+    flights_service:
+      build: ./Flights
+      networks:
+        - micro-net
+      ports: 
+        - "3000:3000"
+      volumes:
+        - ./Flights:/developer/nodejs/flights_service
+        - flights-service-node-modules:/developer/nodejs/flights-service/node_modules
+    booking_service:
+      build: ./Flights-Booking-Services
+      networks:
+        - micro-net
+      ports:
+        - "4000:4000"
+      volumes:
+        - ./Flights-Booking-Service:/developer/nodejs/booking_service
+        - booking-service-node-modules:/developer/nodejs/booking-service/node_modules
+    notification-service:
+      build: ./Notification-Service
+      networks:
+        - micro-net
+      ports:
+        - "3002:3002"
+      volumes:
+        - ./Notification-Service:/developer/nodejs/notification_service
+        - notification-service-node-modules:/developer/nodejs/notification-service/node_modules
+# docker compose up -d //run all containser in detached mode kind of like -dit 
